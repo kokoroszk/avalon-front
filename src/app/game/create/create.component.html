@@ -1,0 +1,40 @@
+<div style="margin-top: 20px;"></div>
+<div>
+  <form>
+    <div class="uk-margin">
+      input room name:<br>
+      <div class="uk-inline uk-margin">
+          <span class="uk-form-icon" uk-icon="icon: home"></span>
+          <input class="uk-input" name="roomName" type="text" [(ngModel)]="gameName">
+      </div>
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player0" type="text" [(ngModel)]="playerNames[0]">
+      </div>
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player1" type="text" [(ngModel)]="playerNames[1]">
+      </div>
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player2" type="text" [(ngModel)]="playerNames[2]">
+      </div>
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player3" type="text" [(ngModel)]="playerNames[3]">
+      </div>
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player4" type="text" [(ngModel)]="playerNames[4]">
+      </div>
+<!--
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: user"></span>
+        <input class="uk-input" name="player5" type="text" [(ngModel)]="playerNames[5]">
+      </div>
+-->
+      <div><button class="uk-button uk-button-success" style="margin-top: 5px;" (click)="createGame()">OK</button></div>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,114 @@
+<div style="margin-top: 15px;"></div>
+<!-- header -->
+<div>
+  missions:
+  <ng-container *ngFor="let mission of game.missions; let i = index;">
+    <span *ngIf="i != 0">-</span>
+    <span *ngIf="mission == Game.AURTHUR_WIN" class="arthur-win" uk-icon="check"></span>
+    <span *ngIf="mission == Game.MORDRED_WIN" class="mordred-win" uk-icon="close"></span>
+    <span *ngIf="mission > 0" class="mission-number">{{ mission }}</span>
+  </ng-container>
+</div>
+<div>
+  leader: {{game.players[game.leaderId].name}}
+</div>
+<div>
+  rejection: {{game.rejectionCount}} times
+</div>
+<div>
+  result: 
+  <ng-container *ngFor="let isSuccess of game.lastMissionResult">
+    <span *ngIf="game.phase != Game.PHASE_MISSION && isSuccess" class="uk-label uk-label-success uk-margin-small-right">S</span>
+    <span *ngIf="game.phase != Game.PHASE_MISSION && !isSuccess" class="uk-label uk-label-danger uk-margin-small-right">F</span>
+  </ng-container>
+</div>
+<div>
+  <div>
+    <button href="#toggle-role" class="uk-button uk-button-default" type="button" uk-toggle="target: #toggle-role; animation: uk-animation-fade" style="margin-top: 5px;">Check Role</button>
+    <div id="toggle-role" class="uk-card uk-card-default uk-card-body uk-margin-small" hidden>
+      <div *ngIf="game.players[game.playerId].role == Game.ROLE_AUTHURIAN_KNIGHT">
+        <p>Authurian Knight: resistance</p>
+      </div>
+      <div *ngIf="game.players[game.playerId].role == Game.ROLE_MERLIN">
+        <p>Merlin: resistance</p>
+        <p>evils are 
+          <ng-container *ngFor="let player of game.players | filter: 'role': Game.ROLE_MINION_OF_MORDRED">
+            {{player.name}}, 
+          </ng-container>
+        </p>
+      </div>
+      <div *ngIf="game.players[game.playerId].role == Game.ROLE_MINION_OF_MORDRED">
+        <p>Minion Of Mordred: evil</p>
+        <p>evils are
+          <ng-container *ngFor="let player of game.players | filter: 'role': Game.ROLE_MINION_OF_MORDRED">{{player.name}}, </ng-container>
+          <ng-container *ngFor="let player of game.players | filter: 'role': Game.ROLE_MORDRED">{{player.name}}, </ng-container>
+        </p>
+      </div>
+      <div *ngIf="game.players[game.playerId].role == Game.ROLE_MORDRED">
+        <p>Mordred: evil</p>
+        <p>
+          <ng-container *ngFor="let player of game.players | filter: 'role': Game.ROLE_MINION_OF_MORDRED">{{player.name}}, </ng-container>
+          <ng-container *ngFor="let player of game.players | filter: 'role': Game.ROLE_MORDRED">{{player.name}}, </ng-container>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- controller -->
+<hr class="uk-divider-icon">
+<!-- vote -->
+<div *ngIf="game.phase == Game.PHASE_VOTE">
+  <div *ngIf="game.players[game.playerId].vote == Game.VOTE_NONE">
+    <p uk-margin>
+      selected: <ng-container *ngFor="let player of game.players | filter: 'isSelected': true">{{player.name}}, </ng-container>
+    </p>
+    <p uk-margin>
+      <button class="uk-button uk-button-success uk-margin-small-right" (click)="accept()">Accept</button>
+      <button class="uk-button uk-button-danger uk-margin-small-right" (click)="reject()">Reject</button>
+    </p>
+  </div>
+  <span *ngIf="game.players[game.playerId].vote != Game.VOTE_NONE">now voting...</span>
+</div>
+
+<!-- play mission  -->
+<div *ngIf="game.phase == Game.PHASE_MISSION">
+  <p uk-margin *ngIf="game.players[game.playerId].isSelected && !missioned">
+      <button class="uk-button uk-button-success uk-margin-small-right" (click)="missionSuccess()">Success</button>
+      <button class="uk-button uk-button-danger uk-margin-small-right" (click)="missionFail()">Fail</button>
+  </p>
+  <span *ngIf="!game.players[game.playerId].isSelected || missioned">now playing mission...</span>
+</div>
+
+<!-- chose member to send out on a mission -->
+<div *ngIf="game.phase == Game.PHASE_SELECT" class="switch_set">
+  select {{game.missions[game.currentMission]}} people.
+  <form *ngIf="game.leaderId == game.playerId">
+    <span uk-margin *ngFor="let player of playerForSelect;index as i;">
+        <input type='checkbox' [attr.id]='"switch-" + player.id' class="switch" name="isSelected" [(ngModel)]="player.isSelected">
+        <label [attr.for]='"switch-" + player.id' [attr.label-on]="player.name" [attr.label-off]="player.name"></label>
+    </span>
+    <div><button class="uk-button uk-button-success" style="margin-top: 5px;" (click)="selectMember()">OK</button></div>
+  </form>
+  <div *ngIf="game.leaderId != game.playerId">
+    now selecting...
+  </div>
+</div>
+
+<!-- vote -->
+<table class="uk-table uk-table-divider">
+  <thead>
+    <tr>
+      <th class="uk-table-shrink">Name</th>
+      <th class="uk-table-expand">Last Vote</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let player of game.players">
+    <tr>
+      <td>{{ player.name }}</td>
+      <td *ngIf="game.phase == Game.PHASE_VOTE || player.vote == Game.VOTE_NONE">-</td>
+      <td *ngIf="game.phase != Game.PHASE_VOTE && player.vote == Game.VOTE_ACCEPT"><div class="uk-alert uk-alert-success" style="padding: 0px"><span class="uk-margin-small-right" uk-icon="check"></span>accept</div></td>
+      <td *ngIf="game.phase != Game.PHASE_VOTE && player.vote == Game.VOTE_REJECT"><div class="uk-alert uk-alert-danger" style="padding: 0px"><span class="uk-margin-small-right" uk-icon="close"></span> reject</div></td>
+    </tr>
+  </tbody>
+</table>

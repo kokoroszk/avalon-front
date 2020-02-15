@@ -1,0 +1,43 @@
+<nav class="navbar-fixed uk-navbar-container uk-margin" uk-navbar>
+  <div class="uk-navbar-center">
+    <div class="uk-navbar-center-left">
+      <div>
+        <ul class="uk-navbar-nav">
+          <li><a href="/create"><span uk-icon="icon: plus-circle"></span></a></li>
+        </ul>
+      </div>
+    </div>
+    <a class="uk-navbar-item uk-logo" href="#">Avalon</a>
+    <div class="uk-navbar-center-right">
+      <div>
+        <ul class="uk-navbar-nav">
+          <li><a href="/list"><span uk-icon="icon: table"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+  
+  <div id="bodypadding"></div>
+  
+  <div class="page-cover">
+    <!-- メインを作るブロック -->
+    <div class="main-column main">
+      <div class="uk-container">
+        <router-outlet></router-outlet>
+        <br><br>
+      </div>
+    </div>
+    <!-- メインを作るブロック -->
+  
+    <!-- サイドを作るブロック -->
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-2@s side-column sidebar">
+      <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+        <li class="uk-active"><a href="/">Top</a></li>
+        <li class="uk-nav-header">Menu</li>
+        <li><a href="/create"><span class="uk-margin-small-right" uk-icon="icon: plus-circle"></span> Create Room</a></li>
+        <li><a href="/list"><span class="uk-margin-small-right" uk-icon="icon: table"></span> Find Room</a></li>
+      </ul>
+    </div>
+    <!-- サイドを作るブロック -->
+  </div>

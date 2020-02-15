@@ -1,0 +1,27 @@
+<!-- vote -->
+<table class="uk-table uk-table-divider">
+  <thead>
+    <tr>
+      <th class="uk-table-shrink">Room Name</th>
+      <th class="uk-table-expand">Select</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let game of gameList">
+    <tr>
+      <td>{{ game.gameName }}</td>
+      <td><button class="uk-button uk-button-success" style="margin-top: 5px;" (click)="selectGame(game)">SELECT</button></td>
+    </tr>
+    <tr *ngIf="game == selectedGame">
+      <td colspan="2">
+        player name?
+        <div class="switch_set">
+          <span uk-margin *ngFor="let player of selectedGame.players;index as i;">
+            <input type='radio' [attr.id]='"switch-" + player.id' class="switch" name="isSelected" [checked]="playerId == player.id" (change)="playerId = player.id">
+            <label [attr.for]='"switch-" + player.id' [attr.label-on]="player.name" [attr.label-off]="player.name"></label>
+          </span>
+          <div><button class="uk-button uk-button-success" style="margin-top: 5px;" (click)="enterGame()">ENTER</button></div> 
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

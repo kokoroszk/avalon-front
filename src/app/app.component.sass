@@ -1,0 +1,41 @@
+$nav-height: 80px
+
+#bodypadding
+  height: $nav-height
+
+.navbar-fixed
+  top: 0
+  position: fixed
+  width: 100%
+  z-index: 9999
+
+@media (min-width: 850px)
+  .page-cover
+    display: flex
+    flex-direction: row
+  .main-column
+    order: 2
+    width: 80%
+  .side-column
+    order: 1
+    width: 20%
+
+@media (min-width: 850px)
+  .sidebar
+    position: fixed
+    top: $nav-height
+    bottom: 0
+    left: 0
+    display: block
+    overflow-x: hidden
+    overflow-y: auto
+    border-right: 1px solid #eee
+  .main
+    position: fixed
+    top: $nav-height
+    bottom: 0
+    right: 0
+    display: block
+    overflow-x: hidden
+    overflow-y: auto
+    border-right: 1px solid #eee
